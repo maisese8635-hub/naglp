@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOW&GLOW | 伴走パートナー</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; scroll-behavior: smooth; }
+        .fade-in { opacity: 0; transform: translateY(20px); transition: all 1s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-white dark:bg-slate-900 transition-colors duration-500">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // フェードインコンポーネント
+        const FadeInSection = ({ children, delay = 0 }) => {
+            const [isVisible, setVisible] = useState(false);
+            const domRef = useRef();
+            useEffect(() => {
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => { if (entry.isIntersecting) setVisible(true); });
+                });
+                if (domRef.current) observer.observe(domRef.current);
+                return () => observer.disconnect();
+            }, []);
+            return (
+                <div ref={domRef} className={`fade-in ${isVisible ? 'visible' : ''}`} style={{ transitionDelay: `${delay}ms` }}>
+                    {children}
+                </div>
+            );
+        };
+
+        function App() {
+            const [darkMode, setDarkMode] = useState(false);
+            const lineUrl = "https://lin.ee/KcArsl4"; 
+
+            const scrollToContact = (e) => {
+                e.preventDefault();
+                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+            };
+
+            return (
+                <div className={darkMode ? 'dark' : ''}>
+                    <div className="min-h-screen text-slate-700 bg-white dark:bg-slate-900 dark:text-slate-300 transition-colors duration-500">
+                        
+                        {/* Header */}
+                        <header className="fixed w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-rose-100 dark:border-slate-800">
+                            <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+                                <div className="font-bold text-xl tracking-[0.15em] text-rose-500 dark:text-rose-400">NOW&GLOW</div>
+                                <div className="flex items-center gap-4">
+                                    <a href="#contact" onClick={scrollToContact} className="hidden md:block text-sm font-black text-rose-500 hover:text-rose-600">相談する</a>
+                                    <button onClick={() => setDarkMode(!darkMode)} className="p-2 rounded-full bg-rose-50 dark:bg-slate-800 text-rose-500">
+                                        {darkMode ? '☀️' : '🌙'}
+                                    </button>
+                                </div>
+                            </div>
+                        </header>
+
+                        {/* Hero */}
+                        <section className="relative h-screen min-h-[650px] flex items-center justify-center overflow-hidden">
+                            <div className="absolute inset-0 z-0 bg-slate-100">
+                                <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1920&q=80" className="w-full h-full object-cover opacity-80" />
+                                <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/80 to-white dark:from-slate-900/50 dark:via-slate-900/90 dark:to-slate-900"></div>
+                            </div>
+                            <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+                                <FadeInSection>
+                                    <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-rose-100/50 text-rose-600 text-sm font-bold tracking-widest border border-rose-200 uppercase">For Creative Partnership</div>
+                                    <h1 className="text-4xl md:text-7xl font-extrabold leading-[1.2] mb-8 text-slate-800 dark:text-white">
+                                        先生じゃない。<br />この1本を完成させる<br />
+                                        <span className="text-rose-500">パートナーです。</span>
+                                    </h1>
+                                    <p className="text-lg md:text-xl mb-12 text-slate-600 dark:text-slate-300">必要なのは知識ではなく、隣で共に走る「環境」と「強制力」。</p>
+                                    <button onClick={scrollToContact} className="px-10 py-5 bg-rose-500 text-white rounded-full font-bold shadow-xl">無料で作戦会議を予約する</button>
+                                </FadeInSection>
+                            </div>
+                        </section>
+
+                        {/* Service Menu */}
+                        <section className="py-32 bg-slate-50 dark:bg-slate-900">
+                            <div className="max-w-6xl mx-auto px-6 text-center">
+                                <h2 className="text-3xl font-black mb-20 text-slate-800 dark:text-white uppercase tracking-widest">伴走サポートメニュー</h2>
+                                <div className="grid md:grid-cols-3 gap-8 text-left">
+                                    <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100">
+                                        <h3 className="font-bold text-xl mb-4">習慣化コミュニティ</h3>
+                                        <div className="text-3xl font-black text-rose-500 mb-6">¥3,000<span className="text-sm font-normal">/月</span></div>
+                                        <p className="text-sm text-slate-500 leading-relaxed">孤独を解消し、仲間と作業を続けたい方へ。</p>
+                                    </div>
+                                    <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl border-2 border-rose-300 scale-105 relative z-10">
+                                        <h3 className="font-bold text-xl mb-4">お試し1回伴走</h3>
+                                        <div className="text-3xl font-black text-rose-500 mb-6">¥5,000<span className="text-sm font-normal">/単発</span></div>
+                                        <p className="text-sm text-slate-500 leading-relaxed">
+                                            60分間の集中伴走。その場で<strong>「1本完成」まで導きます。</strong>スピード感と安心感を。
+                                        </p>
+                                    </div>
+                                    <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100">
+                                        <h3 className="font-bold text-xl mb-4">スタンダードプラン</h3>
+                                        <div className="text-3xl font-black text-rose-500 mb-6">¥35,000<span className="text-sm font-normal">/月</span></div>
+                                        <p className="text-sm text-slate-500 leading-relaxed">週1回の通話＋チャット相談。発信を完全に習慣化させます。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Contact */}
+                        <section id="contact" className="py-32 bg-slate-900 text-white text-center">
+                            <FadeInSection>
+                                <h2 className="text-4xl font-black mb-8">まずは無料相談から</h2>
+                                <a href={lineUrl} target="_blank" className="inline-block px-12 py-5 bg-rose-500 rounded-full font-black text-lg">LINEで相談する</a>
+                            </FadeInSection>
+                        </section>
+
+                        <footer className="py-12 bg-slate-950 text-slate-600 text-center text-sm">
+                            <div className="font-bold text-rose-500/50 mb-4 tracking-[0.4em]">NOW&GLOW</div>
+                            <p>&copy; 2024 NOW&GLOW</p>
+                        </footer>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
